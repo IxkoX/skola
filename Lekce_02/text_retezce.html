@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Textové řetězce</title>
+</head>
+<body>
+    <script>
+        let pozdrav1 = "Ahoj!";
+        let pozdrav2 = 'Čauves';
+        let pozdrav3 = `Nazdárek`;
+
+        /* Escapování*/
+        let citat = 'Někdo řekl: \nNěco hrozně slavného';
+        document.write (citat + "<br>" );
+
+        /* Interpolace */
+        let a = 2;
+        let b = 8;
+        let c = 10;
+        let vypis = `Trojúhelník a = ${a} cm, b = ${b} cm, c = ${c} cm neexistuje.`;
+        document.write (vypis + "<br>" )
+        
+        /* Interpolace */
+        let jmeno = "  Alfons Pádlo   ";
+        document.write (jmeno + ", počet znaků: " + jmeno.length + "<br>" );
+        jmeno = jmeno.trim();
+        document.write (jmeno + ", počet znaků: " + jmeno.length + "<br>" );
+
+        let jmeno2 = jmeno.replace("Pádlo", "Kočička");
+        document.write (jmeno + " se přejmenoval na " + jmeno2 + "<br>" );
+
+        jmeno = jmeno.toUpperCase();
+        document.write (jmeno + "<br>" );
+        jmeno = jmeno.toLowerCase();
+        document.write (jmeno + "<br>" );
+        jmeno = "MUDr. " + jmeno;
+        document.write(jmeno + "<br>");
+
+        document.write(jmeno.startsWith("S") + "<br>");
+        document.write(jmeno.startsWith("D", 2) + "<br>");
+        document.write(jmeno.endsWith("I") + "<br>");
+         
+
+        
+
+
+    </script>
+    
+</body>
+</html>

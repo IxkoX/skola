@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    function zletilost() {
+    const rokNarozeni = prompt("Zadejte svůj rok narození:");
+    const soucasnyRok = new Date().getFullYear();
+    const vek = soucasnyRok - rokNarozeni;
+
+    let zprava;
+
+    if (rokNarozeni > soucasnyRok) {
+        zprava = "Ještě jsi se nenarodil.";
+    } else if (vek > 106) {
+        zprava = "Nejste naživu.";
+    } else if (vek >= 18) {
+        zprava = "Jste zletilý.";
+    } else {
+        zprava = "Nejste zletilý.";
+    }
+    document.write(zprava + "<br>");
+}
+zletilost();
+
+let vstupcislo = (prompt("Zadejte číslo: "));
+let cislo = parseFloat(vstupcislo);
+
+if (isNaN(cislo) || cislo < 0) {
+    document.write("Prosím zadejte platné nezáporné číslo.");
+} else {
+    document.write("Odmocnina z čísla " + cislo + " je " + Math.sqrt(cislo));
+}
+
+    </script>
+</body>
+</html>

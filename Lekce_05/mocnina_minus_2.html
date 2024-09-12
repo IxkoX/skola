@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let zaklad = parseFloat(prompt("Zadejte základ mocniny: "));
+        let exp = parseInt(prompt("Zadejte exponent: "));
+        let vysledek = 1;
+        let absExp = Math.abs(exp);  // Absolutní hodnota exponentu
+    
+        for (let i = 0; i < absExp; i++) {
+            vysledek *= zaklad;
+            document.write("pro i=" + (i+1) + " je výsledek " + zaklad + "^" + (i+1) + " = " + vysledek + "<br>");
+        }
+    
+        if (exp < 0) {
+            vysledek = 1 / vysledek;
+        }
+    
+        document.write("<br><br><b>Konečný výsledek: " + zaklad + "^" + exp + " = " + vysledek + "</b><br>");
+    </script>
+    
+</body>
+</html>

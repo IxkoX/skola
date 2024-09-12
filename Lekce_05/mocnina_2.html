@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Mocnina</title>
+</head>
+<body>
+  <input type="number" id="cislo" placeholder="Zadejte číslo">
+  <input type="number" id="mocnina" placeholder="Mocnina">
+  <button onclick="vypocet()">Vypočítat</button>
+  <p id="vysledek"></p>
+
+  <script>
+    function vypocet() {
+      let cislo = document.getElementById("cislo").value;
+      let mocnina = document.getElementById("mocnina").value;
+      let vysledek = 1;
+
+      for (let i = 0; i < mocnina; i++) {
+        vysledek *= cislo;
+      }
+
+      document.getElementById("vysledek").innerText = `Výsledek: ${vysledek}`;
+    }
+  </script>
+</body>
+</html>
