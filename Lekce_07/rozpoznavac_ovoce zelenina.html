@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rozpoznání plodiny</title>
+</head>
+
+<body>
+    <h1>Rozpoznání plodiny</h1>
+    <form id="cropForm" onsubmit="identifyCrop(); return false;">
+        <input type="text" id="cropInput" placeholder="Zadejte plodinu">
+        <button type="submit">Zjistit</button>
+    </form>
+    <p id="result"></p>
+
+    <script>
+        const fruits = {
+            "malina": "Malina je červené drobné ovoce s výraznou chutí. Je bohatá na vitamín C a antioxidanty.",
+            "jablko": "Jablko je oblíbené ovoce s různými odrůdami, které se liší chutí a barvou. Je dobrým zdrojem vlákniny.",
+            "banán": "Banán je sladké ovoce s měkkou texturou. Je bohatý na draslík a vitamín B6.",
+            "pomeranč": "Pomeranč je citrusové ovoce s kyselou chutí, které je výborným zdrojem vitamínu C.",
+            "hrozny": "Hrozny jsou malá kulatá ovoce, která mohou být červená, zelená nebo černá. Jsou dobrým zdrojem antioxidantů.",
+            "kiwi": "Kiwi je malý hnědý plod s zelenou dužninou a malými černými semínky. Má osvěžující a sladkokyselou chuť.",
+            "broskev": "Broskev je šťavnaté ovoce s jemnou pokožkou a sladkou chutí. Je bohatá na vitamíny A a C.",
+            "nektarinka": "Nektarinka je podobná broskvi, ale má hladkou kůru. Je sladká a šťavnatá.",
+            "třešně": "Třešně jsou malé kulaté ovoce, které může být sladké nebo kyselé. Jsou dobrým zdrojem antioxidantů.",
+            "mango": "Mango je tropické ovoce s oranžovou dužninou a sladkou chutí. Je bohaté na vitamín C a A.",
+            "ananas": "Ananas je tropické ovoce s kyselou a sladkou chutí. Je bohatý na vitamín C a enzym bromelain.",
+            "hruška": "Hruška je sladké ovoce s jemnou texturou a různými odrůdami. Je dobrým zdrojem vlákniny.",
+            "jahody": "Jahody jsou červené plody s malými semínky na povrchu. Jsou bohaté na vitamín C a antioxidanty.",
+            "zelené jablko": "Zelené jablko je kyselější než červené odrůdy, ale stále je bohaté na vlákninu a vitamíny.",
+            "granátové jablko": "Granátové jablko má tvrdou kůru a uvnitř obsahuje mnoho šťavnatých semínek. Je bohaté na antioxidanty.",
+            "cantaloupe": "Cantaloupe je meloun s oranžovou dužninou a sladkou chutí. Je dobrým zdrojem vitamínu A.",
+            "meruňka": "Meruňka je malé oranžové ovoce s jemnou chutí a vysokým obsahem vitamínu A.",
+            "papaya": "Papaya je tropické ovoce s oranžovou dužninou a sladkou chutí. Obsahuje enzym papain, který pomáhá trávení.",
+            "datle": "Datle jsou sladké sušené plody, které jsou bohaté na vlákninu a minerály, jako je draslík.",
+            "fíky": "Fíky jsou sladké ovoce s jemnou kůrou a semínky uvnitř. Jsou bohaté na vlákninu a minerály.",
+            "rakytník": "Rakytník je kyselé ovoce s vysokým obsahem vitamínu C a antioxidantů.",
+            "limetka": "Limetka je citrusové ovoce s kyselou chutí, často používané v kuchyni pro dochucování.",
+            "citrón": "Citrón je kyselé ovoce, které je bohaté na vitamín C. Používá se na dochucení a v nápojích.",
+            "liči": "Liči je malé tropické ovoce s růžovou kůrou a bílou šťavnatou dužninou. Má sladkou chuť.",
+            "avokádo": "Avokádo je plod s krémovou texturou a jemnou chutí. Je bohaté na zdravé tuky a vitamíny.",
+            "pithaya": "Pitahaya, nebo také dračí ovoce, má exotický vzhled a sladkou chuť. Je bohaté na vitamíny a vlákninu.",
+            "černý rybíz": "Černý rybíz je malé, kyselé ovoce s vysokým obsahem vitamínu C a antioxidantů.",
+            "nashi hruška": "Nashi hruška, známá také jako asijská hruška, má křupavou texturu a sladkou chuť."
+        };
+
+        const vegetables = {
+            "brokolice": "Brokolice je zelená zelenina s kvetoucími hlavami, která je bohatá na vitamíny C a K, vlákninu a antioxidanty.",
+            "mrkev": "Mrkev je kořenová zelenina s oranžovou barvou, která je výborným zdrojem vitamínu A a beta-karotenu.",
+            "květák": "Květák je bílá zelenina s jemnou chutí a strukturou, bohatá na vitamíny C a K a vlákninu.",
+            "špenát": "Špenát je listová zelenina s tmavě zelenými listy, která je bohatá na železo, vitamíny A a C.",
+            "paprika": "Paprika je barevná zelenina, která může být červená, zelená, žlutá nebo oranžová. Je bohatá na vitamín C a antioxidanty.",
+            "cibule": "Cibule je aromatická zelenina, která je základem mnoha jídel. Má antibakteriální vlastnosti a obsahuje antioxidanty.",
+            "česnek": "Česnek je známý pro svou silnou chuť a zdravotní přínosy. Je bohatý na vitamíny a má antibakteriální účinky.",
+            "cuketa": "Cuketa je zelená letní zelenina s jemnou chutí, která je nízkokalorická a bohatá na vitamíny a minerály.",
+            "brambory": "Brambory jsou univerzální hlízy, které jsou dobrým zdrojem sacharidů, vitamínu C a minerálů, jako je draslík.",
+            "rajče": "Rajče je plod zeleniny, který se často používá v salátech a omáčkách. Je bohaté na vitamín C a lykopen.",
+            "okurka": "Okurka je zelená zelenina s křupavou texturou, která je bohatá na vodu a nízkokalorická.",
+            "ředkvička": "Ředkvička je kořenová zelenina s pikantní chutí a křupavou texturou, která obsahuje vitamíny a minerály.",
+            "pórek": "Pórek je zelenina s jemnou chutí, která je výborným zdrojem vitamínů a minerálů, zejména vitamínu K.",
+            "kukuřice": "Kukuřice je zrno s jemnou sladkou chutí. Je bohatá na vlákninu, vitamíny a minerály.",
+            "chřest": "Chřest je zelenina s jemnou chutí, která je bohatá na vitamíny A, C, K a kyselinu listovou.",
+            "kedlubna": "Kedlubna je kořenová zelenina s křupavou texturou, která obsahuje vitamíny C a K a vlákninu."
+        };
+
+        function levenshtein(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
+
+            const matrix = [];
+            let i, j;
+            for (i = 0; i <= b.length; i++) matrix[i] = [i];
+            for (j = 0; j <= a.length; j++) matrix[0][j] = j;
+
+            for (i = 1; i <= b.length; i++) {
+                for (j = 1; j <= a.length; j++) {
+                    const cost = a[j - 1] === b[i - 1] ? 0 : 1;
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j] + 1, // Deletion
+                        matrix[i][j - 1] + 1, // Insertion
+                        matrix[i - 1][j - 1] + cost // Substitution
+                    );
+                }
+            }
+            return matrix[b.length][a.length];
+        }
+
+        function isSimilar(str1, str2, threshold = 0.6) {
+            const distance = levenshtein(str1, str2);
+            const maxLength = Math.max(str1.length, str2.length);
+            return (1 - distance / maxLength) >= threshold;
+        }
+
+
+        function identifyCrop() {
+            const cropInput = document.getElementById('cropInput').value.toLowerCase();
+            let result = 'Zadali jste špatně, plodina není známa.';
+
+            for (const [key, description] of Object.entries(fruits)) {
+                if (isSimilar(cropInput, key)) {
+                    result = `To je ovoce. ${description}`;
+                    break;
+                }
+            }
+
+            for (const [key, description] of Object.entries(vegetables)) {
+                if (isSimilar(cropInput, key)) {
+                    result = `To je zelenina. ${description}`;
+                    break;
+                }
+            }
+
+            document.getElementById('result').textContent = result;
+        }
+
+    </script>
+</body>
+
+</html>

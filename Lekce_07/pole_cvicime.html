@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        cisla = [15, 52, 65, 87, 125, 47, 0, 1555];
+        document.write(cisla[5]);
+        document.write("<br>");
+
+        for (i of cisla) {
+            document.write(i + "⚠️");
+        }
+        document.write("<br>");
+        let docasne = cisla[4];
+        cisla[4] = cisla[6];
+        cisla[6] = docasne;
+
+        for (i of cisla) {
+            document.write(i + "🧨");
+        }
+        document.write("<br>");
+
+        cisla.splice(4, 0, 88);
+        for (i of cisla) {
+            document.write(i + "🏈");
+        }
+
+        document.write("<hr>");
+        let sum = 0;
+        for (let i = 0; i < cisla.length; i++) {
+            sum += cisla[i];
+        }
+        let average = sum / cisla.length;
+
+        document.write("Součet prvků je: " + sum + "<b> a jejich aritmetický průměr je:" + average + "<br>");
+        document.write("<span style='font-size: 30px;'>Σ</span> = " + sum + "<br>");
+        document.write("<span style='font-size: 30px;'>ϕ</span> = " + average);
+
+
+
+    </script>
+
+
+</body>
+
+</html>
