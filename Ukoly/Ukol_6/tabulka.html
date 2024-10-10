@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editovatelná Tabulka</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        td input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="addRowBottom()">Přidej řádek dolu</button>
+    <button onclick="addRowTop()">Přidej řádek nahoru</button>
+    <button onclick="addColumnLeft()">Přidej sloupec vlevo</button>
+    <button onclick="addColumnRight()">Přidej sloupec vpravo</button>
+
+    <table id="editableTable">
+        <tr>
+            <td><input type="text" value=></td>
+            <td><input type="text" value=></td>
+        </tr>
+        <tr>
+            <td><input type="text" value=></td>
+            <td><input type="text" value=></td>
+        </tr>
+    </table>
+    <br>
+
+    
+
+    <script>
+        function addRowBottom() {
+            const table = document.getElementById('editableTable');
+            const row = table.insertRow();
+            const cols = table.rows[0].cells.length;
+            for (let i = 0; i < cols; i++) {
+                const cell = row.insertCell(i);
+                cell.innerHTML = '<input type="text" value="">';
+            }
+        }
+
+        function addRowTop() {
+            const table = document.getElementById('editableTable');
+            const row = table.insertRow(0);
+            const cols = table.rows[1].cells.length;
+            for (let i = 0; i < cols; i++) {
+                const cell = row.insertCell(i);
+                cell.innerHTML = '<input type="text" value="">';
+            }
+        }
+
+        function addColumnLeft() {
+            const table = document.getElementById('editableTable');
+            for (let i = 0; i < table.rows.length; i++) {
+                const cell = table.rows[i].insertCell(0);
+                cell.innerHTML = '<input type="text" value="">';
+            }
+        }
+
+        function addColumnRight() {
+            const table = document.getElementById('editableTable');
+            for (let i = 0; i < table.rows.length; i++) {
+                const cell = table.rows[i].insertCell();
+                cell.innerHTML = '<input type="text" value="">';
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesarova šifra</title>
+</head>
+
+<body>
+    <h1>Caesarova šifra</h1>
+    <div>
+        <label for="vstupText">Zadejte text k zašifrování:</label>
+        <input type="text" id="vstupText" placeholder="Zde zadejte text">
+    </div>
+
+    <!-- <div>
+        <label for="posun">Zadejte posun (číslo):</label>
+        <input type="number" id="posun" value="3">
+    </div> -->
+    <button onclick="zakoduj()">Zašifruj</button>
+
+    <h2>Zašifrovaný text:</h2>
+    <p id="vystupText"></p>
+
+    <script>
+        // Funkce pro Caesarovu šifru
+        function caesarovasifra(text, posun) {
+            let vysledek = '';
+
+            // Procházení každého znaku v textu
+            
+            for (let i = 0; i < text.length; i++) {
+                let znak = text[i];
+
+                // Zpracování velkých písmen
+                if (znak >= 'A' && znak <= 'Z') {
+                    znak = String.fromCharCode((znak.charCodeAt(0) - 65 + posun) % 26 + 65);
+                }
+                // Zpracování malých písmen
+                else if (znak >= 'a' && znak <= 'z') {
+                    znak = String.fromCharCode((znak.charCodeAt(0) - 97 + posun) % 26 + 97);
+                }
+                // Přidání znaku do výsledku
+                vysledek += znak;
+            }
+            return vysledek;
+        }
+
+        // Funkce pro zpracování vstupu a zobrazení výsledku
+        function zakoduj() {
+            const text = document.getElementById('vstupText').value;
+            // const posun = parseInt(document.getElementById('posun').value);
+            const sifrovanyText = caesarovasifra(text, 3);
+            document.getElementById('vystupText').innerText = sifrovanyText;
+        }
+    </script>
+</body>
+
+</html>

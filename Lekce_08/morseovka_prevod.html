@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Morseova abeceda</h1>
+    <div>
+        <label for="vstupText">Zadejte text v morseovce</label>
+        <input type="text" id="vstupText" placeholder="Zadejte morseovku">
+    </div>
+    <button onclick="preved()">Dekoduj</button>
+
+    <h2>Dekodovaná zpráva:</h2>
+    <p id="vystupText"></p>
+
+    <script>
+        // Morseova abeceda
+        const morseAlphabet = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 
+            'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 
+            'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 
+            'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-', 
+            'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--', 
+            'Z': '--..', '0': '-----', '1': '.----', '2': '..---', 
+            '3': '...--', '4': '....-', '5': '.....', '6': '-....', 
+            '7': '--...', '8': '---..', '9': '----.'
+        };
+
+        // Funkce pro dekódování Morseova kódu
+        function preved() {
+            const morseInput = document.getElementById('vstupText').value.trim();
+            const morseWords = morseInput.split('   '); // oddělení slov (3 mezery)
+            let decodedMessage = '';
+
+            morseWords.forEach(word => {
+                const morseChars = word.split(' '); // oddělení jednotlivých znaků (1 mezera)
+                morseChars.forEach(char => {
+                    for (const [key, value] of Object.entries(morseAlphabet)) {
+                        if (value === char) {
+                            decodedMessage += key; // přidání dekódovaného znaku
+                            break; // najdeme první shodu a přerušíme cyklus
+                        }
+                    }
+                });
+                decodedMessage += ' '; // přidání mezery mezi slovy
+            });
+
+            document.getElementById('vystupText').innerText = decodedMessage.trim(); // zobrazení výsledku
+        }
+    </script>
+    
+</body>
+</html>

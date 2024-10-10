@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body, html {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0; 
+        }
+        table {
+            border-collapse: collapse;
+            width: min(100vmin, 100vw); 
+            height: min(100vmin, 100vw);
+        }
+        td {
+            width: 11.1%;
+            height: 11.1%;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .light {
+            background-color: #f0d9b5;
+        }
+        .dark {
+            background-color: #b58863;
+        }
+        .label {
+            background-color: #ddd;
+            font-weight: bold;
+        }
+    </style>
+    <title>Šachovnice</title>
+</head>
+<body>
+
+<table id="chessboard"></table>
+
+<script>
+    function generateChessboard() {
+        const table = document.getElementById('chessboard');
+        const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+        for (let i = 0; i <= 8; i++) {
+            let row = table.insertRow();
+            for (let j = 0; j <= 8; j++) {
+                let cell = row.insertCell();
+                
+                // Osy X (čísla) a Y (písmena)
+                if (i === 0 && j > 0) {
+                    cell.textContent = j;
+                    cell.className = 'label';
+                } else if (j === 0 && i > 0) {
+                    cell.textContent = letters[i - 1];
+                    cell.className = 'label';
+                } else if (i > 0 && j > 0) {
+                    cell.className = (i + j) % 2 === 0 ? 'light' : 'dark';
+                }
+            }
+        }
+    }
+
+    generateChessboard();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vážený průměr</title>
+    <style>
+        .input-group {
+            margin-bottom: 10px;
+        }
+        .result-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="formular">
+        <h2>Zadejte páry čísel a váh</h2>
+        <form id="dataForm">
+            <div id="inputsContainer"></div>
+            <button type="button" id="addButton">+</button>
+        </form>
+    </div>
+
+    <div class="result-container" id="resultContainer"></div>
+
+    <script>
+        const initialPairs = 7; // Počáteční počet polí
+        let inputCount = initialPairs; // Aktuální počet polí
+
+        // Vytvoření formulářových polí
+        function createInputFields() {
+            const container = document.getElementById('inputsContainer');
+            container.innerHTML = ''; // Vyčistit předchozí obsah
+
+            for (let i = 0; i < inputCount; i++) {
+                const inputGroup = document.createElement('div');
+                inputGroup.className = 'input-group';
+                inputGroup.innerHTML = `
+                    <label>Známka ${i + 1}:</label>
+                    <input type="number" step="any" name="number${i}" placeholder="Číslo" oninput="processData()">
+                    <label>Váha ${i + 1}:</label>
+                    <input type="number" step="any" name="weight${i}" placeholder="Váha" oninput="processData()">
+                `;
+                container.appendChild(inputGroup);
+            }
+        }
+
+        // Funkce pro zpracování formulářových dat
+        function processData() {
+            const data = [];
+            let valid = true;
+
+            for (let i = 0; i < inputCount; i++) {
+                const number = parseFloat(document.querySelector(`[name='number${i}']`).value);
+                const weight = parseFloat(document.querySelector(`[name='weight${i}']`).value);
+
+                // Uložení pouze platných hodnot (čísla a váhy)
+                if (!isNaN(number) && !isNaN(weight) && weight >= 0) {
+                    data.push([number, weight]);
+                }
+            }
+
+            if (data.length > 0) {
+                const avg = weightedAverage2D(data);
+                displayResults(data, avg);
+            } else {
+                displayResults([], null);
+            }
+        }
+
+        // Funkce pro výpočet váženého průměru
+        function weightedAverage2D(data) {
+            let weightedSum = 0;
+            let totalWeight = 0;
+
+            for (const [number, weight] of data) {
+                weightedSum += number * weight;
+                totalWeight += weight;
+            }
+
+            return weightedSum / totalWeight;
+        }
+
+        // Funkce pro zobrazení výsledků
+        function displayResults(data, avg) {
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = '<h2>Zadané páry:</h2>';
+
+            if (data.length > 0) {
+                data.forEach(([number, weight], index) => {
+                    resultContainer.innerHTML += `<p>Pár ${index + 1}: Známka = ${number}, Váha = ${weight}</p>`;
+                });
+                resultContainer.innerHTML += `<h2>Vážený průměr: ${avg.toFixed(2)}</h2>`; // Zaokrouhlení na 2 desetinná místa
+            } else {
+                resultContainer.innerHTML += `<h2>Vážený průměr: N/A</h2>`;
+            }
+        }
+
+        // Funkce pro přidání nového pole
+        function addInputField() {
+            inputCount++;
+            createInputFields();
+        }
+
+        // Přidání události pro tlačítko +
+        document.getElementById('addButton').addEventListener('click', addInputField);
+
+        // Inicializace formuláře
+        createInputFields();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vážený průměr</title>
+    <style>
+        .formular {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            margin-right: 10px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="formular">
+        <h2>Zadejte 12 párů čísel a váh</h2>
+        <form id="dataForm">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Známka</th>
+                        <th>Váha</th>
+                    </tr>
+                </thead>
+                <tbody id="inputsContainer"></tbody>
+            </table>
+        </form>
+    </div>
+
+    <div class="result-container" id="resultContainer"></div>
+
+    <script>
+        // Vytvoření formulářových polí
+        function createInputFields(numPairs) {
+            const container = document.getElementById('inputsContainer');
+
+            for (let i = 0; i < numPairs; i++) {
+                const inputGroup = document.createElement('tr');
+                inputGroup.innerHTML = `
+                    <td>
+                        <input type="number" step="any" name="number${i}" placeholder="Číslo" required oninput="processData()">
+                    </td>
+                    <td>
+                        <input type="number" step="any" name="weight${i}" placeholder="Váha" required oninput="processData()">
+                    </td>
+                `;
+                container.appendChild(inputGroup);
+            }
+        }
+
+        // Funkce pro zpracování formulářových dat
+        function processData() {
+            const numPairs = 12;
+            const data = [];
+            let valid = true;
+
+            for (let i = 0; i < numPairs; i++) {
+                const number = parseFloat(document.querySelector(`[name='number${i}']`).value);
+                const weight = parseFloat(document.querySelector(`[name='weight${i}']`).value);
+
+                if (!isNaN(number) && !isNaN(weight) && weight >= 0) {
+                    data.push([number, weight]);
+                } else {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid) {
+                const avg = weightedAverage2D(data);
+                displayResults(data, avg);
+            } else {
+                document.getElementById('resultContainer').innerHTML = ''; // Vymazat výsledky, pokud jsou neplatné
+            }
+        }
+
+        // Funkce pro výpočet váženého průměru
+        function weightedAverage2D(data) {
+            let weightedSum = 0;
+            let totalWeight = 0;
+
+            for (const [number, weight] of data) {
+                weightedSum += number * weight;
+                totalWeight += weight;
+            }
+
+            return weightedSum / totalWeight;
+        }
+
+        // Funkce pro zobrazení výsledků
+        function displayResults(data, avg) {
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = '<h2>Zadané páry:</h2>';
+
+            data.forEach(([number, weight], index) => {
+                resultContainer.innerHTML += `<p>Pár ${index + 1}: Číslo = ${number}, Váha = ${weight}</p>`;
+            });
+
+            resultContainer.innerHTML += `<h2>Vážený průměr: ${avg}</h2>`;
+        }
+
+        // Inicializace formuláře
+        createInputFields(12);
+    </script>
+
+</body>
+
+</html>

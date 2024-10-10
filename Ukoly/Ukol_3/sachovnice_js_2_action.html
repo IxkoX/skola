@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body, html {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            position: relative;
+        }
+        .chessboard-container {
+            position: relative;
+            width: min(90vmin, 90vw);
+            height: min(90vmin, 90vw);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            height: 100%;
+        }
+        td {
+            width: 12.5%;
+            height: 12.5%;
+            text-align: center;
+            vertical-align: middle;
+            position: relative;
+        }
+        .light {
+            background-color: #f0d9b5;
+        }
+        .dark {
+            background-color: #b58863;
+        }
+        .label {
+            position: absolute;
+            font-weight: bold;
+        }
+        .row-label {
+            left: -2.5%;
+            top: calc(12.5% * var(--row) - 6.25%);
+            transform: translateY(-50%);
+        }
+        .col-label {
+            top: -3%;
+            left: calc(12.5% * var(--col) - 6.25%);
+            transform: translateX(-50%);
+        }
+        .piece {
+            position: absolute;
+            width: 80%; /* Adjust to fit the cell */
+            height: 80%; /* Adjust to fit the cell */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+    <title>Šachovnice</title>
+</head>
+<body>
+
+<div class="chessboard-container" id="chessboard-container">
+    <table id="chessboard"></table>
+</div>
+
+<script>
+    function generateChessboard() {
+        const table = document.getElementById('chessboard');
+        const container = document.getElementById('chessboard-container');
+        const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+        // Generování šachovnice
+        for (let i = 1; i <= 8; i++) {
+            let row = table.insertRow();
+            for (let j = 1; j <= 8; j++) {
+                let cell = row.insertCell();
+                cell.className = (i + j) % 2 === 0 ? 'light' : 'dark';
+                // Přidání figurky do buňky (pouze příklad, můžete přidat skutečné SVG)
+                if (i === 2 && j === 2) {
+                    const piece = document.createElement('img');
+                    piece.src = 'images/cerny_pesak.svg'; // Cesta k SVG souboru
+                    piece.className = 'piece';
+                    piece.draggable = true;
+                    piece.dataset.position = `${i}-${j}`;
+                    cell.appendChild(piece);
+                }
+            }
+        }
+
+        // Přidání souřadnic písmen (řádky)
+        letters.forEach((letter, index) => {
+            const label = document.createElement('div');
+            label.textContent = letter;
+            label.className = 'label row-label';
+            label.style.setProperty('--row', index + 1);
+            container.appendChild(label);
+        });
+
+        // Přidání souřadnic čísel (sloupce)
+        for (let i = 1; i <= 8; i++) {
+            const label = document.createElement('div');
+            label.textContent = i;
+            label.className = 'label col-label';
+            label.style.setProperty('--col', i);
+            container.appendChild(label);
+        }
+    }
+
+    function handleDragStart(event) {
+        event.dataTransfer.setData('text/plain', event.target.dataset.position);
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        const fromPosition = event.dataTransfer.getData('text/plain');
+        const toCell = event.target.closest('td');
+        if (toCell && toCell.querySelector('.piece')) {
+            return; // Target cell already contains a piece
+        }
+
+        const piece = document.querySelector(`[data-position="${fromPosition}"]`);
+        if (piece) {
+            toCell.appendChild(piece);
+            piece.dataset.position = `${Array.from(toCell.parentNode.parentNode.children).indexOf(toCell.parentNode) + 1}-${Array.from(toCell.parentNode.children).indexOf(toCell) + 1}`;
+        }
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        generateChessboard();
+
+        document.querySelectorAll('.piece').forEach(piece => {
+            piece.addEventListener('dragstart', handleDragStart);
+        });
+
+        document.querySelectorAll('td').forEach(cell => {
+            cell.addEventListener('dragover', handleDragOver);
+            cell.addEventListener('drop', handleDrop);
+        });
+    });
+</script>
+
+</body>
+</html>

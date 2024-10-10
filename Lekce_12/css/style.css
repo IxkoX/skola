@@ -1,0 +1,17 @@
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid black;
+    font-size: 40px;
+
+}
+
+thead {
+    background-color: rgb(205, 205, 255);
+    font-weight: bolder;
+    text-transform: uppercase;
+}
