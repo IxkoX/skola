@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elektronický Diář</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Elektronický Diář</h1>
+    <div class="container">
+        <form id="taskForm">
+            <input type="text" id="taskInput" placeholder="Přidejte úkol" required>
+            <input type="date" id="deadlineInput" required>
+            <button type="submit">Přidat úkol</button>
+        </form>
+        <div id="taskList"></div>
+    </div>
+    <script src="diary.js"></script>
+</body>
+</html>

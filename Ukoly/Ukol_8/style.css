@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+}
+.container {
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; 
+    gap: 50px;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(6, 100px);
+    grid-template-rows: repeat(6, 100px);
+    gap: 7px;
+    justify-content: center;
+}
+
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    position: relative;
+    border: 2px solid #000;
+    border-radius: 5px; 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
+}
+h1 {
+    margin: 6px; 
+}
+.card img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+}
+
+.card.flipped img {
+    display: block;
+}
+.card img.back {
+    display: block;
+    /* Zobrazit zadní stranu */
+}
+
+.card img.front {
+    display: none;
+    /* Skryté přední obrázky */
+}
+
+
+#restart {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+#matchedPairsContainer {
+    margin-top: 20px; /* Mezery nad hromádkou */
+}
+
+#matchedPairs {
+    display: flex;
+    flex-wrap: wrap; /* Umožní více dvojic na novém řádku */
+    gap: 10px; /* Mezera mezi dvojicemi */
+}
+
+.matched-pair {
+    width: 50px; /* Šířka obrázku */
+    height: 50px; /* Výška obrázku */
+    overflow: hidden; /* Skryje část obrázku, pokud přesahuje */
+    border: 2px solid #00ff00; /* Zelený okraj pro uhodnuté dvojice */
+    border-radius: 5px; /* Zaoblení rohů */
+}

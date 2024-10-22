@@ -1,0 +1,16 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+svg {
+    display: block;
+    margin: auto;
+}
+
+.vysledek {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
